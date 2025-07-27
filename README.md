@@ -18,7 +18,7 @@ It features a clean and professional GUI built using **Tkinter**.
 
 ---
 
-## 🖼️ Interface Preview
+##  Interface Preview
 
 - Modern, industrial UI
 - Clean button layout
