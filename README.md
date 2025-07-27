@@ -38,3 +38,12 @@ It features a clean and professional GUI built using **Tkinter**.
 
 
 
+---
+
+##  Setup Instructions
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/your-username/pdf-audio-mcq-generator.git
+cd pdf-audio-mcq-generator
+
