@@ -73,20 +73,27 @@ def generate_mcqs():
             messagebox.showwarning("Empty PDF", "No readable text found.")
             return
 
-        # Extract sentences and form basic MCQs
+        # Extract sentences and form MCQs
         sentences = [s.strip() for s in text.split('.') if len(s.strip().split()) > 6]
-        sample_sentences = random.sample(sentences, min(5, len(sentences)))
-
         mcqs = []
-        for i, sent in enumerate(sample_sentences, start=1):
+
+        for i, sent in enumerate(sentences, start=1):
             words = sent.split()
             if len(words) > 6:
                 answer = words[-1].rstrip(",.")
                 question = sent.replace(answer, "_____")
-                options = [answer] + random.sample([w for w in words if w != answer and len(w) > 3], k=3)
+                # Generate 3 random wrong options
+                wrong_options = list(set(w for w in words if w != answer and len(w) > 3))
+                if len(wrong_options) < 3:
+                    continue
+                options = [answer] + random.sample(wrong_options, k=3)
                 random.shuffle(options)
                 mcq = f"Q{i}. {question}?\nA) {options[0]}   B) {options[1]}   C) {options[2]}   D) {options[3]}\nCorrect: {answer}\n"
                 mcqs.append(mcq)
+
+        if not mcqs:
+            messagebox.showinfo("No MCQs", "Not enough content found to generate MCQs.")
+            return
 
         # MCQ popup
         mcq_window = Toplevel(root)
@@ -102,7 +109,6 @@ def generate_mcqs():
 
     except Exception as e:
         messagebox.showerror("Error", f"Failed to generate MCQs:\n{str(e)}")
-
 
 # ==== UI Section ====
 title_label = tk.Label(root, text="PDF to Audio & MCQ Generator", font=("Segoe UI", 20, "bold"), bg="#F5F7FA", fg="#212529")
